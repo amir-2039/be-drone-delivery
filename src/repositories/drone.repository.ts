@@ -12,7 +12,6 @@ export interface UpdateDroneData {
   currentLat?: number;
   currentLng?: number;
   lastHeartbeat?: Date;
-  assignedOrderId?: string | null;
   isBroken?: boolean;
 }
 
