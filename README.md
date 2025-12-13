@@ -132,8 +132,6 @@ npm run dev
 ### Next Steps
 
 - ⏳ **Phase 7**: Testing (unit, integration, E2E)
-- ⏳ **Phase 6**: Input validation, error handling improvements
-- ⏳ **Phase 7**: Testing (unit, integration, E2E)
 
 For testing instructions, see:
 - `PHASE1_TESTING.md` - Phase 1 verification steps
