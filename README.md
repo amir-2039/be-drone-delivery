@@ -126,10 +126,11 @@ npm run dev
 - ✅ **Phase 2**: Authentication and authorization (JWT, middleware)
 - ✅ **Phase 3**: Repository layer and domain utilities (ETA calculation, location validation)
 - ✅ **Phase 4**: Business logic services (OrderService, DroneService, JobService)
+- ✅ **Phase 5**: REST API endpoints (controllers and routes)
 
 ### Next Steps
 
-- 🔄 **Phase 5**: REST API endpoints (controllers and routes)
+- ⏳ **Phase 6**: Input validation, error handling improvements
 - ⏳ **Phase 6**: Input validation, error handling improvements
 - ⏳ **Phase 7**: Testing (unit, integration, E2E)
 
