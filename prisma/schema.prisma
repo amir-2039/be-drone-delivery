@@ -1,0 +1,134 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid()) @db.Uuid
+  name      String
+  type      UserType
+  createdAt DateTime @default(now())
+
+  // Relations
+  orders Order[]
+
+  @@unique([name, type])
+  @@map("users")
+}
+
+model Order {
+  id              String      @id @default(uuid()) @db.Uuid
+  originLat       Float
+  originLng       Float
+  destinationLat  Float
+  destinationLng  Float
+  status          OrderStatus @default(PENDING)
+  createdBy       String      @db.Uuid
+  assignedDroneId String?     @unique @db.Uuid
+  currentLat      Float?
+  currentLng      Float?
+  eta             DateTime?
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  // Relations
+  assignedDrone Drone? @relation("AssignedOrders", fields: [assignedDroneId], references: [id], onDelete: SetNull)
+  creator       User   @relation(fields: [createdBy], references: [id])
+  jobs          Job[]
+
+  @@index([status])
+  @@index([assignedDroneId])
+  @@index([createdBy])
+  @@map("orders")
+}
+
+model Drone {
+  id            String       @id @default(uuid()) @db.Uuid
+  status        DroneStatus  @default(AVAILABLE)
+  currentLat    Float
+  currentLng    Float
+  lastHeartbeat DateTime     @default(now())
+  isBroken      Boolean      @default(false)
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+
+  // Relations
+  assignedOrder Order? @relation("AssignedOrders")
+
+  @@index([status])
+  @@index([lastHeartbeat])
+  @@map("drones")
+}
+
+model Job {
+  id              String    @id @default(uuid()) @db.Uuid
+  type            JobType
+  orderId         String?   @db.Uuid
+  originLat       Float
+  originLng       Float
+  destinationLat  Float
+  destinationLng  Float
+  brokenDroneId   String?   @db.Uuid
+  status          JobStatus @default(PENDING)
+  assignedDroneId String?   @db.Uuid
+  createdAt       DateTime  @default(now())
+
+  // Relations
+  order Order? @relation(fields: [orderId], references: [id], onDelete: SetNull)
+
+  @@index([status])
+  @@index([assignedDroneId])
+  @@index([type])
+  @@map("jobs")
+}
+
+enum UserType {
+  ADMIN
+  ENDUSER
+  DRONE
+
+  @@map("user_type")
+}
+
+enum OrderStatus {
+  PENDING
+  ASSIGNED
+  IN_TRANSIT
+  DELIVERED
+  FAILED
+  WITHDRAWN
+
+  @@map("order_status")
+}
+
+enum DroneStatus {
+  AVAILABLE
+  BUSY
+  BROKEN
+  MAINTENANCE
+
+  @@map("drone_status")
+}
+
+enum JobType {
+  DELIVERY_ORDER
+  HANDOFF
+
+  @@map("job_type")
+}
+
+enum JobStatus {
+  PENDING
+  RESERVED
+  COMPLETED
+
+  @@map("job_status")
+}
+

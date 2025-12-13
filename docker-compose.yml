@@ -1,0 +1,26 @@
+version: '3.8'
+
+# Note: Using local PostgreSQL instead of Docker container
+# Make sure PostgreSQL is running on your machine before starting the app
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: drone-delivery-app
+    ports:
+      - "${PORT:-3000}:3000"
+    environment:
+      - NODE_ENV=${NODE_ENV:-development}
+      - DATABASE_URL=${DATABASE_URL}
+      - JWT_SECRET=${JWT_SECRET:-your-secret-key-change-in-production}
+      - PORT=${PORT:-3000}
+    # Use host.docker.internal to connect to local PostgreSQL
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - ./src:/app/src
+      - ./prisma:/app/prisma
+    command: npm run dev
+
