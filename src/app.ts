@@ -2,6 +2,9 @@ import express, { Express } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import authRoutes from './routes/auth.routes';
+import orderRoutes from './routes/order.routes';
+import droneRoutes from './routes/drone.routes';
+import adminRoutes from './routes/admin.routes';
 import { errorHandler } from './middleware/error.middleware';
 
 // Load environment variables
@@ -22,6 +25,9 @@ app.get('/health', (_req, res) => {
 
 // Routes
 app.use('/auth', authRoutes);
+app.use('/api/orders', orderRoutes);
+app.use('/api/drones', droneRoutes);
+app.use('/api/admin', adminRoutes);
 
 // Error handler middleware (must be last)
 app.use(errorHandler);

@@ -33,7 +33,13 @@ export class OrderRepository {
    */
   async create(data: CreateOrderData): Promise<Order> {
     return prisma.order.create({
-      data,
+      data: {
+        originLat: data.originLat,
+        originLng: data.originLng,
+        destinationLat: data.destinationLat,
+        destinationLng: data.destinationLng,
+        createdBy: data.createdBy,
+      },
     });
   }
 

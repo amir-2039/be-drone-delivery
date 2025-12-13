@@ -1,13 +1,12 @@
-import { Response, NextFunction } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import { verifyToken, extractTokenFromHeader } from '../utils/jwt.util';
 import { UnauthorizedError } from '../utils/errors.util';
 import { TokenPayload } from '../types/user.types';
 
-export interface AuthenticatedRequest {
+export interface AuthenticatedRequest extends Request {
   user?: TokenPayload;
-  headers: {
-    authorization?: string;
-  };
+  userId?: string;
+  userType?: string;
 }
 
 /**
@@ -25,6 +24,8 @@ export function authenticate(req: AuthenticatedRequest, _res: Response, next: Ne
 
     const payload = verifyToken(token);
     req.user = payload;
+    req.userId = payload.userId;
+    req.userType = payload.type;
 
     next();
   } catch (error) {
