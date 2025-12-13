@@ -8,7 +8,7 @@ import {
   BulkOrdersQuery,
 } from '../types/order.types';
 import { validateLocation, calculateETAFromLocation } from '../utils/location.util';
-import { NotFoundError, ConflictError, ValidationError } from '../utils/errors.util';
+import { NotFoundError, ConflictError } from '../utils/errors.util';
 import { prisma } from '../lib/prisma';
 
 export class OrderService {
@@ -17,18 +17,7 @@ export class OrderService {
    * Creates order and corresponding delivery job
    */
   async submitOrder(data: CreateOrderRequest, userId: string): Promise<OrderResponse> {
-    // Validate coordinates
-    validateLocation(data.origin);
-    validateLocation(data.destination);
-
-    // Origin and destination must be different
-    if (
-      data.origin.lat === data.destination.lat &&
-      data.origin.lng === data.destination.lng
-    ) {
-      throw new ValidationError('Origin and destination cannot be the same');
-    }
-
+    // Note: Location validation is handled by middleware
     // Create order
     const order = await orderRepository.create({
       originLat: data.origin.lat,

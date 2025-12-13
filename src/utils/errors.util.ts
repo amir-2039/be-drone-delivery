@@ -5,7 +5,8 @@ export class AppError extends Error {
   constructor(
     public message: string,
     public statusCode: number = 500,
-    public code?: string
+    public code?: string,
+    public details?: unknown
   ) {
     super(message);
     this.name = this.constructor.name;
@@ -14,8 +15,8 @@ export class AppError extends Error {
 }
 
 export class ValidationError extends AppError {
-  constructor(message: string, code?: string) {
-    super(message, 400, code || 'VALIDATION_ERROR');
+  constructor(message: string, code?: string, details?: unknown) {
+    super(message, 400, code || 'VALIDATION_ERROR', details);
   }
 }
 
@@ -38,7 +39,13 @@ export class NotFoundError extends AppError {
 }
 
 export class ConflictError extends AppError {
+  constructor(message: string, code?: string, details?: unknown) {
+    super(message, 409, code || 'CONFLICT', details);
+  }
+}
+
+export class BadRequestError extends AppError {
   constructor(message: string, code?: string) {
-    super(message, 409, code || 'CONFLICT');
+    super(message, 400, code || 'BAD_REQUEST');
   }
 }

@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { orderController } from '../controllers/order.controller';
 import { authenticate } from '../middleware/auth.middleware';
 import { requireEndUser } from '../middleware/authorization.middleware';
-import { validateCreateOrder } from '../middleware/validation.middleware';
+import { validateCreateOrder, validateUUIDParam } from '../middleware/validation.middleware';
 
 const router = Router();
 
@@ -32,7 +32,7 @@ router.get('/', (req, res, next) => {
  * GET /api/orders/:id
  * Get order details with progress and ETA
  */
-router.get('/:id', (req, res, next) => {
+router.get('/:id', validateUUIDParam, (req, res, next) => {
   orderController.getOrderDetails(req, res, next);
 });
 
@@ -40,7 +40,7 @@ router.get('/:id', (req, res, next) => {
  * DELETE /api/orders/:id
  * Withdraw order (if not picked up)
  */
-router.delete('/:id', (req, res, next) => {
+router.delete('/:id', validateUUIDParam, (req, res, next) => {
   orderController.withdrawOrder(req, res, next);
 });
 
