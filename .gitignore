@@ -19,6 +19,10 @@ build/
 # Testing
 coverage/
 .nyc_output/
+tests/**/*.js
+tests/**/*.d.ts
+tests/**/*.d.ts.map
+TEST_FIX*.md
 
 # IDE
 .vscode/
