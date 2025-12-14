@@ -46,12 +46,9 @@ function handlePrismaError(error: unknown): AppError | null {
         return new AppError('Record not found', 404, 'NOT_FOUND');
       }
       default:
-        return new AppError(
-          `Database error: ${error.message}`,
-          500,
-          'DATABASE_ERROR',
-          { code: error.code }
-        );
+        return new AppError(`Database error: ${error.message}`, 500, 'DATABASE_ERROR', {
+          code: error.code,
+        });
     }
   }
 

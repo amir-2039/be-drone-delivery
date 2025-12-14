@@ -2,7 +2,10 @@ import { Router } from 'express';
 import { droneController } from '../controllers/drone.controller';
 import { authenticate } from '../middleware/auth.middleware';
 import { requireDrone } from '../middleware/authorization.middleware';
-import { validateUpdateDroneLocation, validateUUIDParam } from '../middleware/validation.middleware';
+import {
+  validateUpdateDroneLocation,
+  validateUUIDParam,
+} from '../middleware/validation.middleware';
 
 const router = Router();
 
@@ -69,4 +72,3 @@ router.put('/location', validateUpdateDroneLocation, (req, res, next) => {
 });
 
 export default router;
-

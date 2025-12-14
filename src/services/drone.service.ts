@@ -2,10 +2,7 @@ import { DroneStatus, OrderStatus, JobType } from '@prisma/client';
 import { droneRepository } from '../repositories/drone.repository';
 import { orderRepository } from '../repositories/order.repository';
 import { NotFoundError, ConflictError } from '../utils/errors.util';
-import {
-  DroneStatusUpdateResponse,
-  UpdateDroneLocationRequest,
-} from '../types/drone.types';
+import { DroneStatusUpdateResponse, UpdateDroneLocationRequest } from '../types/drone.types';
 import { validateLocation, calculateETAFromLocation } from '../utils/location.util';
 import { prisma } from '../lib/prisma';
 
@@ -212,6 +209,7 @@ export class DroneService {
         await tx.job.create({
           data: {
             type: JobType.HANDOFF,
+            orderId: assignedOrder.id,
             originLat: drone.currentLat,
             originLng: drone.currentLng,
             destinationLat: assignedOrder.destinationLat,
@@ -417,4 +415,3 @@ export class DroneService {
 }
 
 export const droneService = new DroneService();
-

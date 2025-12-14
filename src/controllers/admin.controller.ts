@@ -10,7 +10,11 @@ export class AdminController {
    * Bulk get orders with filters
    * Auth: Admin only
    */
-  async getBulkOrders(req: AuthenticatedRequest, res: Response<OrderResponse[]>, next: NextFunction) {
+  async getBulkOrders(
+    req: AuthenticatedRequest,
+    res: Response<OrderResponse[]>,
+    next: NextFunction
+  ) {
     try {
       const filters = {
         status: req.query.status as any,
@@ -126,4 +130,3 @@ export class AdminController {
 }
 
 export const adminController = new AdminController();
-

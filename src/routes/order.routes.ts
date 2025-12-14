@@ -45,4 +45,3 @@ router.delete('/:id', validateUUIDParam, (req, res, next) => {
 });
 
 export default router;
-

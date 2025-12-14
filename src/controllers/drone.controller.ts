@@ -128,7 +128,11 @@ export class DroneController {
    * Get currently assigned order details
    * Auth: Drone only
    */
-  async getCurrentOrder(req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> {
+  async getCurrentOrder(
+    req: AuthenticatedRequest,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     try {
       const droneId = req.userId!;
 
@@ -147,4 +151,3 @@ export class DroneController {
 }
 
 export const droneController = new DroneController();
-

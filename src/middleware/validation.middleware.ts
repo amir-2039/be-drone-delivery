@@ -42,16 +42,19 @@ const locationSchema = z.object({
 /**
  * Create order request validation
  */
-const createOrderSchema = z.object({
-  origin: locationSchema,
-  destination: locationSchema,
-}).refine(
-  (data) => !(data.origin.lat === data.destination.lat && data.origin.lng === data.destination.lng),
-  {
-    message: 'Origin and destination cannot be the same',
-    path: ['destination'],
-  }
-);
+const createOrderSchema = z
+  .object({
+    origin: locationSchema,
+    destination: locationSchema,
+  })
+  .refine(
+    (data) =>
+      !(data.origin.lat === data.destination.lat && data.origin.lng === data.destination.lng),
+    {
+      message: 'Origin and destination cannot be the same',
+      path: ['destination'],
+    }
+  );
 
 /**
  * Update order origin/destination validation
@@ -97,9 +100,13 @@ const updateDroneLocationSchema = z.object({
  * Bulk orders query validation
  */
 const bulkOrdersQuerySchema = z.object({
-  status: z.nativeEnum(OrderStatus, {
-    errorMap: () => ({ message: `Status must be one of: ${Object.values(OrderStatus).join(', ')}` }),
-  }).optional(),
+  status: z
+    .nativeEnum(OrderStatus, {
+      errorMap: () => ({
+        message: `Status must be one of: ${Object.values(OrderStatus).join(', ')}`,
+      }),
+    })
+    .optional(),
   assignedDroneId: z.string().regex(UUID_REGEX, 'assignedDroneId must be a valid UUID').optional(),
   createdBy: z.string().regex(UUID_REGEX, 'createdBy must be a valid UUID').optional(),
   limit: z
@@ -120,9 +127,13 @@ const bulkOrdersQuerySchema = z.object({
  * Admin drones query validation
  */
 const adminDronesQuerySchema = z.object({
-  status: z.nativeEnum(DroneStatus, {
-    errorMap: () => ({ message: `Status must be one of: ${Object.values(DroneStatus).join(', ')}` }),
-  }).optional(),
+  status: z
+    .nativeEnum(DroneStatus, {
+      errorMap: () => ({
+        message: `Status must be one of: ${Object.values(DroneStatus).join(', ')}`,
+      }),
+    })
+    .optional(),
   isBroken: z
     .string()
     .toLowerCase()

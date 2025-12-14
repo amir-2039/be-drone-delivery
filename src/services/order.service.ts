@@ -179,11 +179,7 @@ export class OrderService {
   /**
    * Update order destination
    */
-  async updateOrderDestination(
-    orderId: string,
-    lat: number,
-    lng: number
-  ): Promise<OrderResponse> {
+  async updateOrderDestination(orderId: string, lat: number, lng: number): Promise<OrderResponse> {
     validateLocation({ lat, lng });
 
     const order = await orderRepository.findByIdOrThrow(orderId);
@@ -263,4 +259,3 @@ export class OrderService {
 }
 
 export const orderService = new OrderService();
-

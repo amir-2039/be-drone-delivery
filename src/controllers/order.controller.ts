@@ -64,7 +64,11 @@ export class OrderController {
    * List user's own orders
    * Auth: EndUser only
    */
-  async getUserOrders(req: AuthenticatedRequest, res: Response<OrderResponse[]>, next: NextFunction) {
+  async getUserOrders(
+    req: AuthenticatedRequest,
+    res: Response<OrderResponse[]>,
+    next: NextFunction
+  ) {
     try {
       const userId = req.userId!;
 
@@ -77,4 +81,3 @@ export class OrderController {
 }
 
 export const orderController = new OrderController();
-

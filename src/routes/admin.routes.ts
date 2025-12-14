@@ -71,4 +71,3 @@ router.put('/drones/:id/fixed', validateUUIDParam, (req, res, next) => {
 });
 
 export default router;
-
